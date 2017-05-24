@@ -4,7 +4,10 @@
 {% block header %}
   <div class='jumbotron'>
     <h1>Budget KeepR</h1>
-    <h2>Log in to your account</h2>
+    <h2>
+	  Log in to your account or
+	  <a href="{% url 'users:register' %}">register</a>
+	</h2>
   </div>
 {% endblock header %}
 
