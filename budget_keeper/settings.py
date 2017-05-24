@@ -146,7 +146,7 @@ if os.getcwd() == '/app':
 	
 	# Allow only Heroku to host the project.
 	# Allow all host headers.
-	ALLOWED_HOSTS = ['daniel-learning-log.herokuapp.com']
+	ALLOWED_HOSTS = ['*']
 	
 	DEBUG = False
 	
