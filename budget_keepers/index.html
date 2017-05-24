@@ -27,9 +27,10 @@
     </div> <!-- panel -->
   {% empty %}
     <h2>
-      No budgets currently active. Please
-        <a href="{% url 'budget_keepers:view_budgets' %}">View/edit your budgets</a> 
-      and set at least one to "active."
+      No budgets are currently active. Please either
+        <a href="{% url 'budget_keepers:create_budget' %}">create a new budget</a></li> or 
+        <a href="{% url 'budget_keepers:view_budgets' %}">edit an existing budget</a> 
+      and set the budget to "active."
     </h2>
   {% endfor %}
   
