@@ -1,0 +1,58 @@
+{% extends "budget_keepers/base.html" %}
+{% load bootstrap3 %}
+
+{% block header %}
+  <div class='jumbotron'>
+    <h2>Expenses for {{ budget }}</h2>
+  </div>
+{% endblock header %}
+
+{% block content %}
+  
+  {% for category, expenses in category_expenses.items %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+	    {% if category.red_or_black == 'black' %}
+	      <h3>
+	        {{ category }} -
+	        ${{ category.budget_remaining }} remaining
+	      </h3>
+	    {% else %}
+	      <h3 style="color: red;">
+	        {{ category }} -
+	        ${{ category.budget_remaining }} over budget
+	      </h3>
+	    {% endif %}
+	  </div>
+	  <div class="panel-body">
+        {% if expenses %}
+          <table>
+		    <tr>
+	          <th>Date</th>
+		      <th>Expense</th>
+		      <th>Tag</th>
+		      <th></th>
+		      <th></th>
+		    </tr>
+            {% for expense in expenses %}
+              <tr>
+                <td>{{ expense.date_added|date:'M d, Y H:i' }}</td>
+                <td>${{ expense }}</td>
+                <td>{{ expense.tag }}</td>
+                <td><a href="{% url 'budget_keepers:edit_expense' expense.id %}">edit</a></td>
+                <td><a href="{% url 'budget_keepers:delete_expense' expense.id %}">delete</a></td>
+              </tr>
+          {% endfor %}
+          </table>
+          <p></p>
+          <b>Total expenses: ${{ category.total_expense }}</b>
+        {% else %}
+          <h3>No expenses in this category.</h3>
+        {% endif %}
+      </div>
+    </div>
+  {% empty %}
+    <h2>No categories in this budget.</h2>
+  {% endfor %}
+  
+{% endblock content %}

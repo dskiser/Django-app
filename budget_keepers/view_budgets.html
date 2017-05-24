@@ -1,0 +1,34 @@
+{% extends "budget_keepers/base.html" %}
+{% load bootstrap3 %}
+
+{% block header %}
+  <div class='jumbotron'>
+    <h2>Select a budget to edit.</h2>
+  </div>
+{% endblock header %}
+
+{% block content %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2>
+        Budgets
+      </h2>
+    </div>
+  
+    <div class="panel-body">
+      {% for budget in budgets %}
+		  <h3>
+	        {{ budget }} - {{ budget.status }} and {{ budget.completeness }}
+		    <small>  
+	          <a href="{% url 'budget_keepers:view_budget' budget.id %}">edit</a>
+	          <a href="{% url 'budget_keepers:delete_budget' budget.id %}">delete</a>
+	        </small>
+	      </h3>
+      {% empty %}
+        <h3>No budgets have been created yet.</h3>
+      {% endfor %}
+    </div>
+  </div>
+  
+ 
+{% endblock content %}

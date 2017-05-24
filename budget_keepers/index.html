@@ -1,0 +1,83 @@
+{% extends "budget_keepers/base.html" %}
+{% load bootstrap3 %}
+
+{% block header %}
+ <div class='jumbotron'>
+   <h2><b>Budget KeepR</b>: Record your expenses and monitor your spending</h2>
+ </div>
+{% endblock header %}
+
+{% block content %}
+ 
+  {% for budget, form in forms.items %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+		<h3>Record expense for {{ budget }}</h3>
+	  </div>
+	  <div class="panel-body">
+        <form method="post" action="{% url 'budget_keepers:index' %}" class="form">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+    
+          {% buttons %}
+            <button name="submit" class="btn btn-primary">record expense</button>
+          {% endbuttons %}
+        </form>
+      </div>
+    </div> <!-- panel -->
+  {% empty %}
+    <h2>
+      No budgets currently active. Please
+        <a href="{% url 'budget_keepers:view_budgets' %}">View/edit your budgets</a> 
+      and set at least one to "active."
+    </h2>
+  {% endfor %}
+  
+  {% for budget, categories in budget_categories.items %}
+    <div class="panel panel-default">
+	  <div class="panel-heading">
+        <h3>
+		  {% if budget.red_or_black == 'black' %}
+	        <b>Spending for {{ budget }}</b> (${{ budget.budget_remaining }} remaining)
+	      {% else %}
+	        <p style="color: red;"><b>Spending for {{ budget }}</b> (${{ budget.budget_remaining }} over budget)</p>
+	      {% endif %}
+	      <small>
+	        <a href="{% url 'budget_keepers:view_budget' budget.id %}">view/edit budget</a> -
+	        <a href="{% url 'budget_keepers:view_expenses' budget.id %}">view/edit expenses</a>
+	      </small>
+	    </h3>
+	  </div>
+	  <div class="panel-body">
+        <h4>
+	      {% if categories %}
+		  <table>
+		    <tr>
+		      <th>Category</th>
+		      <th>Money Remaining</th>
+		      <th>Money Spent</th>
+		    </tr>
+		    {% for category in categories %}
+		      <tr>  
+	            <td>{{ category }}</td>
+	            {% if category.red_or_black == 'black' %}
+	              <td>${{ category.budget_remaining }}</td>
+	            {% else %}
+	              <td style="color: red;">-${{ category.budget_remaining }}</td>
+	            {% endif %}
+	            <td>${{ category.total_expense }}</td>
+	          </tr>
+            {% endfor %}
+          </table>
+          {% else %}
+            No categories have been created. Please "View/edit your budgets"
+		    and add categories.
+		  {% endif %}
+        </h4>
+      </div>
+    </div>
+      
+  {% empty %}
+  {% endfor %}
+
+{% endblock content %}

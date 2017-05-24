@@ -1,0 +1,12 @@
+{% extends "budget_keepers/base.html" %}
+
+{% block content %}
+  <p><a href="{% url 'budget_keepers:view_expenses' budget.id %}">{{ budget }} expenses</a></p>
+ 
+  <form action="{% url 'budget_keepers:edit_expense' expense.id %}" method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit">save changes</button>
+  </form>
+    
+{% endblock content %}

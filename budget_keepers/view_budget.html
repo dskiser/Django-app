@@ -1,0 +1,67 @@
+{% extends "budget_keepers/base.html" %}
+{% load bootstrap3 %}
+
+{% block header %}
+  <div class='jumbotron'>
+    <h2>
+      {{ budget }} budget - 
+      {{ budget.completeness }} and {{ budget.status }}
+    </h2>  
+  </div>
+{% endblock header %}
+
+{% block content %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3> 
+        Budget categories
+        <small>
+          <a href="{% url 'budget_keepers:add_category' budget.id %}">Add category</a> -
+          <a href="{% url 'budget_keepers:view_expenses' budget.id %}">view detailed expenses for budget</a>
+        </small>
+      </h3>
+    </div>
+  
+    <div class="panel-body">
+	  <table>
+	    <tr>
+          <th>Category</th>
+          <th>Budget</th>
+          <th></th>
+          <th></th>
+        </tr>	
+	    {% for category in categories %}
+	      <tr>
+    	    <td>{{ category.name}}</td>
+    	    <td>${{category.budget}}</td>
+	        <td><a href="{% url 'budget_keepers:edit_category' category.id %}">edit</a></td>
+	        <td><a href="{% url 'budget_keepers:delete_category' category.id %}">delete</a></td>
+	      </tr>
+        {% empty %}
+          <h4>
+            There are no categories for this budget yet.
+          </h4>
+        {% endfor %}
+      </table>
+      <h4>
+        {{ message }}
+      </h4>
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3>Edit budget info and change budget status</h3>
+    </div>
+    <div class="panel-body">
+      <form action="{% url 'budget_keepers:view_budget' budget.id %}" method='post'>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+          <button name="submit" class="btn btn-primary">save</button>
+        {% endbuttons %}
+      </form>
+    </div>
+  </div>
+  
+{% endblock content %}
