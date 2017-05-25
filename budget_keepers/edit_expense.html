@@ -1,12 +1,31 @@
 {% extends "budget_keepers/base.html" %}
+{% load bootstrap3 %}
+
+{% block header %}
+  <div class='jumbotron'>
+    <h2>Make changes to an earlier expense.</h2>
+  </div>
+{% endblock header %}
 
 {% block content %}
-  <p><a href="{% url 'budget_keepers:view_expenses' budget.id %}">{{ budget }} expenses</a></p>
- 
-  <form action="{% url 'budget_keepers:edit_expense' expense.id %}" method='post'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">save changes</button>
-  </form>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3>
+	    {{ expense.date_added|date:'M d, Y H:i' }}
+	  </h3>
+	</div>
+    <div class="panel-body">
+      <form action="{% url 'budget_keepers:edit_expense' expense.id %}" method='post' class='form'>
+        {% csrf_token %}
+        {% bootstrap_form form %}
     
+        {% buttons %}
+          <button name="submit" class="btn btn-primary">save changes</button>
+        {% endbuttons %}
+      </form>
+    </div>
+  </div>
+  <h3>
+    <a href="{% url 'budget_keepers:view_expenses' budget.id %}">return to {{ budget }} expenses</a>
+  </h3>    
 {% endblock content %}
