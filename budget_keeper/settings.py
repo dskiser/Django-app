@@ -146,8 +146,7 @@ if cwd == '/app' or cwd[:4] == '/tmp':
 	SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 	
 	# Allow only Heroku to host the project.
-	# Allow all host headers.
-	ALLOWED_HOSTS = ['*']
+	ALLOWED_HOSTS = ['budget-keeper.herokuapp.com']
 	
 	DEBUG = False
 	

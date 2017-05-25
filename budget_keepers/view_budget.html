@@ -23,6 +23,7 @@
     </div>
   
     <div class="panel-body">
+	  {% if categories %}
 	  <table>
 	    <tr>
           <th>Category</th>
@@ -37,15 +38,16 @@
 	        <td><a href="{% url 'budget_keepers:edit_category' category.id %}">edit</a></td>
 	        <td><a href="{% url 'budget_keepers:delete_category' category.id %}">delete</a></td>
 	      </tr>
-        {% empty %}
-          <h4>
-            There are no categories for this budget yet.
-          </h4>
         {% endfor %}
       </table>
       <h4>
         {{ message }}
       </h4>
+      {% else %}
+        <h3>
+          There are not categories for this budget yet.
+        </h3>
+      {% endif %}
     </div>
   </div>
   
