@@ -61,7 +61,7 @@ ROOT_URLCONF = 'budget_keeper.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [''],
+        'DIRS': ['', os.path.join(BASE_DIR, 'budget_keeper/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
